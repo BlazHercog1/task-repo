@@ -9,7 +9,17 @@ def zmanjsaj_sliko(slika, sirina, visina):
     pass
 
 def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) -> list:
+    rezultat = []
+    for y in range(0, slika.shape[0], visina_skatle):
+        vrstica=[]
+        for x in range(0, slika.shape[1], sirina_skatle):
+            podslika= slika[y:y+visina_skatle, x:x+sirina_skatle]
+            stevilo_pikslov=prestej_piklse_z_barvo_koze(podslika, barva_koze)
+            vrstica.append(stevilo_pikslov)
+        rezultat.append(vrstica)
+    return rezultat
     pass
+
 
 def prestej_piklse_z_barvo_koze(slika, barva_koze) -> int:
     pass
