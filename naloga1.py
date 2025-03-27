@@ -1,1 +1,60 @@
-'print("Hello, GitHub!")' 
+import cv2 as cv
+import numpy as np
+import time
+
+prev_time = 0
+
+def zmanjsaj_sliko(slika, sirina, visina):
+    pass
+
+def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) -> list:
+    pass
+
+def prestej_piklse_z_barvo_koze(slika, barva_koze) -> int:
+    pass
+
+def doloci_barvo_koze(slika,levo_zgoraj,desno_spodaj) -> tuple:
+    pass
+
+if __name__ == '__main__':
+    kamera = cv.VideoCapture(0)
+    if not kamera.isOpened():
+        print('Kamera ni bila odprta.')
+    ret, slika = kamera.read()
+    if not ret:
+        print("Napaka pri zajemu slike!")
+        exit()
+    cv.namedWindow('Zajem obraza')
+    cv.imshow('Zajem obraza', slika)
+
+    rect= cv.selectROI('Zajem obraza', slika, fromCenter=False, showCrosshair=True)
+    cv.destroyWindow('Zajem obraza')
+
+    levo_zgoraj = (rect[0], rect[1])
+    desno_spodaj = (rect[0]+rect[2], rect[1]+rect[3])
+    barva_koze = doloci_barvo_koze(slika, levo_zgoraj, desno_spodaj)  
+    while True:
+        trenutni_cas = time.time()
+        ret, slika = kamera.read()
+        if not ret:
+            break
+        slika = zmanjsaj_sliko(slika, 450, 450)
+        skatle = obdelaj_sliko_s_skatlami(slika, 50, 50, barva_koze)
+        for i, vrstica in enumerate(skatle):
+            for j, vrednost in enumerate(vrstica):
+                if vrednost > 40:
+                    cv.rectangle(slika, (j*50, i*50), ((j+1)*50, (i+1)*50), (0, 255, 0), 2)
+
+        curr_time = time.time()
+        fps = 1 / (curr_time - prev_time)
+        prev_time = curr_time
+
+        cv.putText(slika, "FPS: {:.2f}".format(fps), (10, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+        cv.imshow('Face Detection with FPS', slika)
+        
+        if cv.waitKey(1) & 0xFF == ord('q'):
+            break
+    
+    kamera.release()
+    cv.destroyAllWindows()
+    pass
