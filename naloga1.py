@@ -5,6 +5,7 @@ import time
 prev_time = 0
 
 def zmanjsaj_sliko(slika, sirina, visina):
+    return cv.resize(slika, (sirina, visina))
     pass
 
 def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) -> list:
