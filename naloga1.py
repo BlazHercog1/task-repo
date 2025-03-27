@@ -28,7 +28,14 @@ def prestej_piklse_z_barvo_koze(slika, barva_koze) -> int:
 
 
 def doloci_barvo_koze(slika,levo_zgoraj,desno_spodaj) -> tuple:
+    roi = slika[levo_zgoraj[1]:desno_spodaj[1], levo_zgoraj[0]: desno_spodaj[0]]
+    povprecje = np.mean(roi, axis=(0,1))
+    odstopanje = np.std(roi, axis=(1,0))
+    spodnja_meja=np.maximum(povprecje-odstopanje, 0).astype(int)
+    zgornja_meja=np.minimum(povprecje+odstopanje, 255).astype(int)
+    return spodnja_meja, zgornja_meja
     pass
+
 
 if __name__ == '__main__':
     kamera = cv.VideoCapture(0)
