@@ -22,7 +22,10 @@ def obdelaj_sliko_s_skatlami(slika, sirina_skatle, visina_skatle, barva_koze) ->
 
 
 def prestej_piklse_z_barvo_koze(slika, barva_koze) -> int:
+    maska = cv.inRange(slika, barva_koze[0], barva_koze[1])
+    return cv.countNonZero(maska)
     pass
+
 
 def doloci_barvo_koze(slika,levo_zgoraj,desno_spodaj) -> tuple:
     pass
